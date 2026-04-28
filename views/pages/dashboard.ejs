@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard — DevBlog</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#0f0f23; color:white; font-family:Arial, sans-serif; }
+        .container { max-width:800px; margin:40px auto; padding:0 20px; }
+        h1 { color:#e94560; margin-bottom:8px; }
+        .subtitle { color:#888; margin-bottom:32px; }
+        .post-card { background:#1a1a2e; border-radius:12px; padding:24px; margin-bottom:20px; border:1px solid #222; }
+        .post-card h2 { color:white; margin-bottom:8px; }
+        .post-card h2 a { color:white; text-decoration:none; }
+        .post-card h2 a:hover { color:#e94560; }
+        .post-meta { color:#888; font-size:0.85rem; margin-bottom:12px; }
+        .post-excerpt { color:#ccc; line-height:1.6; }
+        .empty { text-align:center; color:#888; padding:60px 0; }
+        .empty a { color:#e94560; }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <h1>Latest Posts</h1>
+        <p class="subtitle">Welcome back, <%= user.name %></p>
+
+        <% if (posts.length === 0) { %>
+            <div class="empty">
+                <p>No posts yet. <a href="/post/create">Write the first one!</a></p>
+            </div>
+        <% } else { %>
+            <% posts.forEach(post => { %>
+                <div class="post-card">
+                    <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
+                    <div class="post-meta">
+                        By <%= post.author.name %> &nbsp;•&nbsp;
+                        <%= new Date(post.createdAt).toDateString() %>
+                    </div>
+                    <p class="post-excerpt"><%= post.content.substring(0, 150) %>...</p>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

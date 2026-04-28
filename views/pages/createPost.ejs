@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Write — DevBlog</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#0f0f23; color:white; font-family:Arial, sans-serif; }
+        .container { max-width:700px; margin:40px auto; padding:0 20px; }
+        h1 { color:#e94560; margin-bottom:32px; }
+        input, textarea { width:100%; padding:14px; margin-bottom:20px; background:#1a1a2e; border:1px solid #333; border-radius:8px; color:white; font-size:1rem; }
+        textarea { height:300px; resize:vertical; }
+        button { padding:12px 32px; background:#e94560; border:none; border-radius:8px; color:white; font-size:1rem; cursor:pointer; }
+        button:hover { background:#c73652; }
+        .error { background:#ff000022; border:1px solid #e94560; padding:10px; border-radius:8px; margin-bottom:16px; color:#e94560; }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <h1>Write a Post</h1>
+
+        <% if (error) { %>
+            <div class="error"><%= error %></div>
+        <% } %>
+
+        <form action="/post/create" method="POST">
+            <input type="text" name="title" placeholder="Post title..." required />
+            <textarea name="content" placeholder="Write your post here..."></textarea>
+            <button type="submit">Publish</button>
+        </form>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

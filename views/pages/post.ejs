@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= post.title %> — DevBlog</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#0f0f23; color:white; font-family:Arial, sans-serif; }
+        .container { max-width:700px; margin:40px auto; padding:0 20px; }
+        h1 { color:white; font-size:2rem; margin-bottom:12px; line-height:1.3; }
+        .meta { color:#888; margin-bottom:32px; font-size:0.9rem; }
+        .content { color:#ccc; line-height:1.8; font-size:1.05rem; white-space:pre-wrap; }
+        .actions { margin-top:32px; display:flex; gap:12px; }
+        .btn { padding:10px 24px; border-radius:8px; border:none; cursor:pointer; font-size:0.95rem; text-decoration:none; }
+        .btn-edit { background:#16213e; color:white; border:1px solid #333; }
+        .btn-delete { background:#e94560; color:white; }
+        .back { color:#e94560; text-decoration:none; display:inline-block; margin-bottom:24px; }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <a href="/dashboard" class="back">← Back to posts</a>
+
+        <h1><%= post.title %></h1>
+        <div class="meta">
+            By <%= post.author.name %> &nbsp;•&nbsp; <%= new Date(post.createdAt).toDateString() %>
+        </div>
+
+        <div class="content"><%= post.content %></div>
+
+        <% if (user && user._id.toString() === post.author._id.toString()) { %>
+            <div class="actions">
+                <a href="/post/<%= post._id %>/edit" class="btn btn-edit">Edit</a>
+                <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+            </div>
+        <% } %>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>
