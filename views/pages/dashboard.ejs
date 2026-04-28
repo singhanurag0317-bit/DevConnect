@@ -2,47 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard — DevBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — DevConnect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:#0f0f23; color:white; font-family:Arial, sans-serif; }
-        .container { max-width:800px; margin:40px auto; padding:0 20px; }
-        h1 { color:#e94560; margin-bottom:8px; }
-        .subtitle { color:#888; margin-bottom:32px; }
-        .post-card { background:#1a1a2e; border-radius:12px; padding:24px; margin-bottom:20px; border:1px solid #222; }
-        .post-card h2 { color:white; margin-bottom:8px; }
-        .post-card h2 a { color:white; text-decoration:none; }
-        .post-card h2 a:hover { color:#e94560; }
-        .post-meta { color:#888; font-size:0.85rem; margin-bottom:12px; }
-        .post-excerpt { color:#ccc; line-height:1.6; }
-        .empty { text-align:center; color:#888; padding:60px 0; }
-        .empty a { color:#e94560; }
+        html, body { height:100%; }
+        body {
+            background:#0a0a18;
+            color:#e0e0f0;
+            font-family:'Inter', sans-serif;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+        }
+        main { flex:1; }
+        .container { max-width:820px; margin:48px auto; padding:0 24px; }
+        h1 { font-size:2rem; font-weight:800; background:linear-gradient(90deg,#6c63ff,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:6px; }
+        .subtitle { color:#8080b0; margin-bottom:36px; font-size:0.97rem; }
+        .post-card {
+            background:linear-gradient(135deg,#12122a 0%,#1a1a38 100%);
+            border-radius:14px;
+            padding:26px 28px;
+            margin-bottom:20px;
+            border:1px solid #2a2a50;
+            transition:border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+        }
+        .post-card:hover { border-color:#6c63ff88; box-shadow:0 4px 32px #6c63ff18; transform:translateY(-2px); }
+        .post-card h2 { color:#e0e0f8; margin-bottom:8px; font-size:1.15rem; font-weight:700; }
+        .post-card h2 a { color:#e0e0f8; text-decoration:none; transition:color 0.2s; }
+        .post-card h2 a:hover { color:#a78bfa; }
+        .post-meta { color:#7070a0; font-size:0.82rem; margin-bottom:10px; }
+        .post-excerpt { color:#b0b0cc; line-height:1.65; font-size:0.95rem; }
+        .tag { display:inline-block; background:#1e1e50; color:#a78bfa; border-radius:6px; padding:2px 10px; font-size:0.76rem; font-weight:600; margin-bottom:10px; }
+        .empty { text-align:center; color:#6060a0; padding:80px 0; }
+        .empty a { color:#6c63ff; text-decoration:none; font-weight:600; }
+        .empty a:hover { color:#a78bfa; }
+        .write-btn {
+            display:inline-flex; align-items:center; gap:8px;
+            background:linear-gradient(135deg,#6c63ff,#a78bfa);
+            color:white; padding:10px 24px; border-radius:10px;
+            text-decoration:none; font-weight:700; font-size:0.92rem;
+            margin-bottom:32px; box-shadow:0 2px 14px #6c63ff33;
+            transition:opacity 0.2s, transform 0.2s;
+        }
+        .write-btn:hover { opacity:0.88; transform:translateY(-1px); }
     </style>
 </head>
 <body>
     <%- include('../partials/navbar') %>
 
-    <div class="container">
-        <h1>Latest Posts</h1>
-        <p class="subtitle">Welcome back, <%= user.name %></p>
+    <main>
+        <div class="container">
+            <h1>Latest Posts</h1>
+            <p class="subtitle">Welcome back, <strong><%= user.name %></strong> 👋</p>
 
-        <% if (posts.length === 0) { %>
-            <div class="empty">
-                <p>No posts yet. <a href="/post/create">Write the first one!</a></p>
-            </div>
-        <% } else { %>
-            <% posts.forEach(post => { %>
-                <div class="post-card">
-                    <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
-                    <div class="post-meta">
-                        By <%= post.author.name %> &nbsp;•&nbsp;
-                        <%= new Date(post.createdAt).toDateString() %>
-                    </div>
-                    <p class="post-excerpt"><%= post.content.substring(0, 150) %>...</p>
+            <a href="/post/create" class="write-btn">✏️ Write a Post</a>
+
+            <% if (posts.length === 0) { %>
+                <div class="empty">
+                    <p>No posts yet. <a href="/post/create">Write the first one!</a></p>
                 </div>
-            <% }) %>
-        <% } %>
-    </div>
+            <% } else { %>
+                <% posts.forEach(post => { %>
+                    <div class="post-card">
+                        <span class="tag">Article</span>
+                        <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
+                        <div class="post-meta">
+                            By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
+                            <%= new Date(post.createdAt).toDateString() %>
+                        </div>
+                        <p class="post-excerpt"><%= post.content.substring(0, 160) %>...</p>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+    </main>
 
     <%- include('../partials/footer') %>
 </body>

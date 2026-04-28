@@ -2,43 +2,136 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= post.title %> — DevBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= post.title %> — DevConnect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:#0f0f23; color:white; font-family:Arial, sans-serif; }
-        .container { max-width:700px; margin:40px auto; padding:0 20px; }
-        h1 { color:white; font-size:2rem; margin-bottom:12px; line-height:1.3; }
-        .meta { color:#888; margin-bottom:32px; font-size:0.9rem; }
-        .content { color:#ccc; line-height:1.8; font-size:1.05rem; white-space:pre-wrap; }
-        .actions { margin-top:32px; display:flex; gap:12px; }
-        .btn { padding:10px 24px; border-radius:8px; border:none; cursor:pointer; font-size:0.95rem; text-decoration:none; }
-        .btn-edit { background:#16213e; color:white; border:1px solid #333; }
-        .btn-delete { background:#e94560; color:white; }
-        .back { color:#e94560; text-decoration:none; display:inline-block; margin-bottom:24px; }
+        html, body { height:100%; }
+        body {
+            background:#0a0a18;
+            color:#e0e0f0;
+            font-family:'Inter', sans-serif;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+        }
+        main { flex:1; }
+        .container { max-width:740px; margin:48px auto; padding:0 24px; }
+        .back {
+            color:#7070a0;
+            text-decoration:none;
+            font-size:0.9rem;
+            font-weight:500;
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            margin-bottom:28px;
+            padding:8px 16px;
+            border-radius:8px;
+            border:1px solid #2a2a50;
+            transition:color 0.2s, border-color 0.2s;
+        }
+        .back:hover { color:#a78bfa; border-color:#6c63ff88; }
+        .post-header {
+            background:linear-gradient(135deg,#12122a 0%,#1a1a38 100%);
+            border:1px solid #2a2a55;
+            border-radius:18px;
+            padding:40px 36px;
+            margin-bottom:32px;
+            box-shadow:0 8px 40px #00000033;
+        }
+        h1 {
+            color:#e8e8ff;
+            font-size:2rem;
+            font-weight:800;
+            margin-bottom:14px;
+            line-height:1.35;
+        }
+        .meta {
+            color:#7070a0;
+            font-size:0.88rem;
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
+        .meta strong { color:#9090c0; }
+        .content-card {
+            background:linear-gradient(135deg,#12122a 0%,#1a1a38 100%);
+            border:1px solid #2a2a55;
+            border-radius:18px;
+            padding:36px 36px;
+            box-shadow:0 4px 24px #00000022;
+        }
+        .content {
+            color:#c0c0dc;
+            line-height:1.85;
+            font-size:1.05rem;
+            white-space:pre-wrap;
+        }
+        .actions {
+            margin-top:36px;
+            display:flex;
+            gap:14px;
+            align-items:center;
+            padding-top:28px;
+            border-top:1px solid #2a2a50;
+        }
+        .btn {
+            padding:11px 26px;
+            border-radius:10px;
+            border:none;
+            cursor:pointer;
+            font-size:0.92rem;
+            font-weight:600;
+            font-family:'Inter', sans-serif;
+            text-decoration:none;
+            transition:opacity 0.2s, transform 0.15s;
+        }
+        .btn-edit {
+            background:#1a1a38;
+            color:#a78bfa;
+            border:1.5px solid #2a2a55;
+        }
+        .btn-edit:hover { border-color:#6c63ff; color:#6c63ff; transform:translateY(-1px); }
+        .btn-delete {
+            background:linear-gradient(135deg,#6c63ff,#a78bfa);
+            color:white;
+            box-shadow:0 3px 14px #6c63ff33;
+        }
+        .btn-delete:hover { opacity:0.85; transform:translateY(-1px); }
     </style>
 </head>
 <body>
     <%- include('../partials/navbar') %>
 
-    <div class="container">
-        <a href="/dashboard" class="back">← Back to posts</a>
+    <main>
+        <div class="container">
+            <a href="/dashboard" class="back">← Back to posts</a>
 
-        <h1><%= post.title %></h1>
-        <div class="meta">
-            By <%= post.author.name %> &nbsp;•&nbsp; <%= new Date(post.createdAt).toDateString() %>
-        </div>
-
-        <div class="content"><%= post.content %></div>
-
-        <% if (user && user._id.toString() === post.author._id.toString()) { %>
-            <div class="actions">
-                <a href="/post/<%= post._id %>/edit" class="btn btn-edit">Edit</a>
-                <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-delete">Delete</button>
-                </form>
+            <div class="post-header">
+                <h1><%= post.title %></h1>
+                <div class="meta">
+                    By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
+                    <%= new Date(post.createdAt).toDateString() %>
+                </div>
             </div>
-        <% } %>
-    </div>
+
+            <div class="content-card">
+                <div class="content"><%= post.content %></div>
+
+                <% if (user && user._id.toString() === post.author._id.toString()) { %>
+                    <div class="actions">
+                        <a href="/post/<%= post._id %>/edit" class="btn btn-edit">✏️ Edit</a>
+                        <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-delete">🗑️ Delete</button>
+                        </form>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
 
     <%- include('../partials/footer') %>
 </body>

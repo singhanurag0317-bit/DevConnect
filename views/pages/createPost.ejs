@@ -2,35 +2,132 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Write — DevBlog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Post — DevConnect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:#0f0f23; color:white; font-family:Arial, sans-serif; }
-        .container { max-width:700px; margin:40px auto; padding:0 20px; }
-        h1 { color:#e94560; margin-bottom:32px; }
-        input, textarea { width:100%; padding:14px; margin-bottom:20px; background:#1a1a2e; border:1px solid #333; border-radius:8px; color:white; font-size:1rem; }
-        textarea { height:300px; resize:vertical; }
-        button { padding:12px 32px; background:#e94560; border:none; border-radius:8px; color:white; font-size:1rem; cursor:pointer; }
-        button:hover { background:#c73652; }
-        .error { background:#ff000022; border:1px solid #e94560; padding:10px; border-radius:8px; margin-bottom:16px; color:#e94560; }
+        html, body { height:100%; }
+        body {
+            background:#0a0a18;
+            color:#e0e0f0;
+            font-family:'Inter', sans-serif;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+        }
+        main { flex:1; }
+        .container { max-width:740px; margin:48px auto; padding:0 24px; }
+        h1 {
+            font-size:2rem;
+            font-weight:800;
+            background:linear-gradient(90deg,#6c63ff,#a78bfa);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            margin-bottom:10px;
+        }
+        .sub { color:#7070a0; font-size:0.9rem; margin-bottom:32px; }
+        .form-card {
+            background:linear-gradient(135deg,#12122a 0%,#1a1a38 100%);
+            border:1px solid #2a2a55;
+            border-radius:18px;
+            padding:36px 32px;
+            box-shadow:0 8px 40px #00000033;
+        }
+        label {
+            display:block;
+            color:#9090c0;
+            font-size:0.82rem;
+            font-weight:600;
+            letter-spacing:0.5px;
+            text-transform:uppercase;
+            margin-bottom:7px;
+        }
+        input, textarea {
+            width:100%;
+            padding:14px 16px;
+            margin-bottom:22px;
+            background:#0e0e22;
+            border:1.5px solid #2a2a50;
+            border-radius:10px;
+            color:#e0e0f0;
+            font-size:1rem;
+            font-family:'Inter', sans-serif;
+            transition:border-color 0.2s, box-shadow 0.2s;
+            outline:none;
+        }
+        input:focus, textarea:focus {
+            border-color:#6c63ff;
+            box-shadow:0 0 0 3px #6c63ff22;
+        }
+        input::placeholder, textarea::placeholder { color:#3a3a60; }
+        textarea { height:320px; resize:vertical; line-height:1.7; }
+        .btn-row { display:flex; gap:14px; align-items:center; }
+        button {
+            padding:13px 36px;
+            background:linear-gradient(135deg,#6c63ff,#a78bfa);
+            border:none;
+            border-radius:10px;
+            color:white;
+            font-size:1rem;
+            font-weight:700;
+            font-family:'Inter', sans-serif;
+            cursor:pointer;
+            box-shadow:0 4px 18px #6c63ff33;
+            transition:opacity 0.2s, transform 0.15s;
+        }
+        button:hover { opacity:0.88; transform:translateY(-1px); }
+        .btn-cancel {
+            color:#7070a0;
+            text-decoration:none;
+            font-size:0.92rem;
+            font-weight:500;
+            padding:13px 20px;
+            border-radius:10px;
+            border:1.5px solid #2a2a50;
+            transition:border-color 0.2s, color 0.2s;
+        }
+        .btn-cancel:hover { border-color:#6c63ff88; color:#a78bfa; }
+        .error {
+            background:#1e0a2e;
+            border:1.5px solid #6c63ff88;
+            padding:12px 16px;
+            border-radius:10px;
+            margin-bottom:20px;
+            color:#a78bfa;
+            font-size:0.9rem;
+        }
     </style>
 </head>
 <body>
     <%- include('../partials/navbar') %>
 
-    <div class="container">
-        <h1>Write a Post</h1>
+    <main>
+        <div class="container">
+            <h1>Write a Post</h1>
+            <p class="sub">Share your knowledge with the DevConnect community</p>
 
-        <% if (error) { %>
-            <div class="error"><%= error %></div>
-        <% } %>
+            <div class="form-card">
+                <% if (error) { %>
+                    <div class="error">⚠️ <%= error %></div>
+                <% } %>
 
-        <form action="/post/create" method="POST">
-            <input type="text" name="title" placeholder="Post title..." required />
-            <textarea name="content" placeholder="Write your post here..."></textarea>
-            <button type="submit">Publish</button>
-        </form>
-    </div>
+                <form action="/post/create" method="POST">
+                    <label for="title">Post Title</label>
+                    <input type="text" id="title" name="title" placeholder="Give your post a great title..." required />
+
+                    <label for="content">Content</label>
+                    <textarea id="content" name="content" placeholder="Write your post here..."></textarea>
+
+                    <div class="btn-row">
+                        <button type="submit">🚀 Publish Post</button>
+                        <a href="/dashboard" class="btn-cancel">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 
     <%- include('../partials/footer') %>
 </body>
