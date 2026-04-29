@@ -12,25 +12,64 @@
 
     <main class="flex-1">
         <div class="container-narrow" style="padding-top: 48px; padding-bottom: 48px;">
-            <a href="/dashboard" class="back-link animate-in">← Back to posts</a>
+            <a href="javascript:history.back()" class="back-link animate-in">← Back</a>
 
             <div class="post-header-card glass animate-in animate-in-delay-1">
                 <h1><%= post.title %></h1>
-                <div class="post-meta">
-                    By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
-                    <%= new Date(post.createdAt).toDateString() %>
+                <div class="post-meta" style="font-size: 0.95rem; margin-top: 12px;">
+                    <div class="avatar avatar-sm" style="background: linear-gradient(135deg, var(--coral), var(--amber));">
+                        <%= post.author.name.charAt(0).toUpperCase() %>
+                    </div>
+                    <strong style="color: var(--text-primary); margin-left: 8px;"><%= post.author.name %></strong> 
+                    &nbsp;•&nbsp; <%= new Date(post.createdAt).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+                    &nbsp;•&nbsp; ⏱️ <%= Math.max(1, Math.ceil(post.content.split(' ').length / 200)) %> min read
                 </div>
             </div>
 
             <div class="post-content-card glass animate-in animate-in-delay-2">
                 <div class="post-content"><%= post.content %></div>
 
-                <% if (user && user._id.toString() === post.author._id.toString()) { %>
-                    <div class="post-actions">
-                        <a href="/post/<%= post._id %>/edit" class="btn btn-ghost">✏️ Edit</a>
-                        <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">🗑️ Delete</button>
-                        </form>
+                <!-- Engagement Bar -->
+                <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+                    <form action="/post/<%= post._id %>/like" method="POST">
+                        <% const hasLiked = user && post.likes && post.likes.includes(user._id); %>
+                        <button type="submit" class="like-btn <%= hasLiked ? 'liked' : '' %>" style="font-size: 1rem; padding: 10px 18px;">
+                            <svg width="20" height="20" fill="<%= hasLiked ? 'currentColor' : 'none' %>" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <%= post.likes ? post.likes.length : 0 %> Likes
+                        </button>
+                    </form>
+
+                    <% if (user && user._id.toString() === post.author._id.toString()) { %>
+                        <div style="display: flex; gap: 10px;">
+                            <a href="/post/<%= post._id %>/edit" class="btn btn-secondary">✏️ Edit</a>
+                            <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">🗑️ Delete</button>
+                            </form>
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- Author Bio Box -->
+                <div class="post-author-box">
+                    <div class="avatar avatar-md" style="background: linear-gradient(135deg, var(--emerald), var(--amber));">
+                        <%= post.author.name.charAt(0).toUpperCase() %>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text-primary); font-size: 1.1rem;">Written by <%= post.author.name %></strong>
+                        <p><%= post.author.bio || 'A passionate developer sharing knowledge on DevConnect.' %></p>
+                    </div>
+                </div>
+
+                <!-- Related Posts -->
+                <% if (typeof morePosts !== 'undefined' && morePosts.length > 0) { %>
+                    <div class="related-posts" style="margin-top: 40px;">
+                        <h3>More from <%= post.author.name %></h3>
+                        <% morePosts.forEach(mp => { %>
+                            <a href="/post/<%= mp._id %>" class="related-post-link">
+                                <strong><%= mp.title %></strong>
+                                <span style="display: block; font-size: 0.8rem; margin-top: 4px;"><%= new Date(mp.createdAt).toLocaleDateString() %></span>
+                            </a>
+                        <% }) %>
                     </div>
                 <% } %>
             </div>

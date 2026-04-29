@@ -18,8 +18,25 @@ const getCurrentUser = async (req, res, next) => {
     }
 };
 
-// Redirect root to dashboard
-router.get('/', (req, res) => res.redirect('/dashboard'));
+// LANDING PAGE — show to non-authenticated users, redirect authenticated ones to dashboard
+router.get('/', getCurrentUser, async (req, res) => {
+    if (req.user) return res.redirect('/dashboard');
+    // Gather platform stats for the landing page
+    let stats = { users: 0, posts: 0, likes: 0 };
+    try {
+        stats.users = await User.countDocuments();
+        stats.posts = await Post.countDocuments();
+        // Sum all likes across posts
+        const likesAgg = await Post.aggregate([
+            { $project: { likeCount: { $size: { $ifNull: ['$likes', []] } } } },
+            { $group: { _id: null, total: { $sum: '$likeCount' } } }
+        ]);
+        stats.likes = likesAgg.length ? likesAgg[0].total : 0;
+    } catch (e) {
+        // If DB isn't connected yet, defaults stay at 0
+    }
+    res.render('pages/landing', { stats });
+});
 
 // AUTH PAGES
 router.get('/auth/login', (req, res) => {
@@ -69,13 +86,23 @@ router.get('/auth/logout', (req, res) => {
 router.get('/dashboard', getCurrentUser, async (req, res) => {
     if (!req.user) return res.redirect('/auth/login');
     const posts = await Post.find().populate('author', 'name').sort({ createdAt: -1 });
-    res.render('pages/dashboard', { user: req.user, posts });
+    const totalUsers = await User.countDocuments();
+    const userPostCount = await Post.countDocuments({ author: req.user._id });
+    res.render('pages/dashboard', { user: req.user, posts, totalUsers, userPostCount });
+});
+
+// EXPLORE — public feed, requires login
+router.get('/explore', getCurrentUser, async (req, res) => {
+    if (!req.user) return res.redirect('/auth/login');
+    const posts = await Post.find().populate('author', 'name').sort({ createdAt: -1 });
+    const totalUsers = await User.countDocuments();
+    res.render('pages/explore', { user: req.user, posts, totalUsers });
 });
 
 // CREATE POST
 router.get('/post/create', getCurrentUser, (req, res) => {
     if (!req.user) return res.redirect('/auth/login');
-    res.render('pages/createPost', { error: null });
+    res.render('pages/createPost', { error: null, user: req.user });
 });
 
 router.post('/post/create', getCurrentUser, async (req, res) => {
@@ -85,16 +112,38 @@ router.post('/post/create', getCurrentUser, async (req, res) => {
         await Post.create({ title, content, author: req.user._id });
         res.redirect('/dashboard');
     } catch (err) {
-        res.render('pages/createPost', { error: err.message });
+        res.render('pages/createPost', { error: err.message, user: req.user });
+    }
+});
+
+// LIKE / UNLIKE POST (AJAX or form)
+router.post('/post/:id/like', getCurrentUser, async (req, res) => {
+    if (!req.user) return res.redirect('/auth/login');
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) return res.redirect('/dashboard');
+        const idx = post.likes.indexOf(req.user._id);
+        if (idx === -1) {
+            post.likes.push(req.user._id);
+        } else {
+            post.likes.splice(idx, 1);
+        }
+        await post.save();
+        res.redirect('back');
+    } catch (err) {
+        res.redirect('/dashboard');
     }
 });
 
 // SINGLE POST
 router.get('/post/:id', getCurrentUser, async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id).populate('author', 'name _id');
+        const post = await Post.findById(req.params.id).populate('author', 'name _id bio');
         if (!post) return res.redirect('/dashboard');
-        res.render('pages/post', { post, user: req.user || null });
+        // Get more posts by same author (for "More from author")
+        const morePosts = await Post.find({ author: post.author._id, _id: { $ne: post._id } })
+            .sort({ createdAt: -1 }).limit(3).select('title createdAt');
+        res.render('pages/post', { post, user: req.user || null, morePosts });
     } catch (err) {
         res.redirect('/dashboard');
     }

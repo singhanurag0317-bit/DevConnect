@@ -11,33 +11,77 @@
     <%- include('../partials/navbar') %>
 
     <main class="flex-1">
-        <div class="container">
-            <div class="page-header animate-in">
-                <h1 class="page-title gradient-text">Latest Posts</h1>
-                <p class="page-subtitle">Welcome back, <strong><%= user.name %></strong> 👋</p>
-            </div>
-
-            <a href="/post/create" class="btn btn-primary animate-in animate-in-delay-1">✏️ Write a Post</a>
-
-            <div style="margin-top: 28px;">
-                <% if (posts.length === 0) { %>
-                    <div class="empty-state glass animate-in animate-in-delay-2">
-                        <p>No posts yet.</p>
-                        <a href="/post/create">Write the first one! →</a>
+        <div class="container-wide">
+            <div class="dashboard-layout">
+                <!-- Main Feed -->
+                <div>
+                    <div class="page-header animate-in">
+                        <h1 class="page-title gradient-text">Your Dashboard</h1>
+                        <p class="page-subtitle">Welcome back, manage your content and stay updated.</p>
                     </div>
-                <% } else { %>
-                    <% posts.forEach(post => { %>
-                        <div class="post-card glass">
-                            <span class="tag">Article</span>
-                            <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
-                            <div class="post-meta">
-                                By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
-                                <%= new Date(post.createdAt).toDateString() %>
-                            </div>
-                            <p class="post-excerpt"><%= post.content.substring(0, 160) %>...</p>
+
+                    <div style="display: flex; gap: 16px; margin-bottom: 28px;" class="animate-in animate-in-delay-1">
+                        <a href="/post/create" class="btn btn-primary">✏️ Write a New Post</a>
+                        <a href="/explore" class="btn btn-ghost">🌍 Explore Community</a>
+                    </div>
+
+                    <h2 class="widget-title animate-in animate-in-delay-1">Recent Activity</h2>
+                    
+                    <% if (posts.length === 0) { %>
+                        <div class="empty-state glass animate-in animate-in-delay-2">
+                            <p>No posts on the platform yet.</p>
+                            <a href="/post/create">Be the first to write! →</a>
                         </div>
-                    <% }) %>
-                <% } %>
+                    <% } else { %>
+                        <% posts.forEach(post => { %>
+                            <div class="post-card glass">
+                                <span class="tag">Article</span>
+                                <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
+                                <div class="post-meta">
+                                    By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
+                                    <%= new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                                    &nbsp;•&nbsp;
+                                    <span style="color: var(--coral);">❤️ <%= post.likes ? post.likes.length : 0 %> likes</span>
+                                </div>
+                                <p class="post-excerpt"><%= post.content.substring(0, 180) %>...</p>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="animate-in animate-in-delay-2">
+                    <!-- Profile Card -->
+                    <div class="glass profile-card">
+                        <div class="avatar avatar-lg" style="background: linear-gradient(135deg, var(--amber), var(--coral));">
+                            <%= user.name.charAt(0).toUpperCase() %>
+                        </div>
+                        <h3 class="profile-name"><%= user.name %></h3>
+                        <p class="profile-bio"><%= user.bio || 'Passionate developer and continuous learner.' %></p>
+                        
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <strong><%= typeof userPostCount !== 'undefined' ? userPostCount : 0 %></strong>
+                                <span>Posts</span>
+                            </div>
+                            <div class="profile-stat">
+                                <strong><%= typeof totalUsers !== 'undefined' ? totalUsers : 0 %></strong>
+                                <span>Network</span>
+                            </div>
+                        </div>
+                        <a href="/post/create" class="btn btn-secondary" style="width: 100%; justify-content: center;">Create Post</a>
+                    </div>
+
+                    <!-- Trending Widget -->
+                    <div class="glass widget mt-4">
+                        <h3 class="widget-title">🔥 Pro Tips</h3>
+                        <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; display: flex; flex-direction: column; gap: 12px;">
+                            <li>• Use descriptive titles for better visibility.</li>
+                            <li>• Add code snippets to illustrate your points.</li>
+                            <li>• Engage with other developers by liking their posts!</li>
+                        </ul>
+                    </div>
+                </aside>
             </div>
         </div>
     </main>
