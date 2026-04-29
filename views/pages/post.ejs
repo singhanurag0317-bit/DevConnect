@@ -8,72 +8,80 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <%- include('../partials/navbar') %>
+    <div class="navbar-wrapper">
+        <%- include('../partials/navbar') %>
+    </div>
 
     <main class="flex-1">
-        <div class="container-narrow" style="padding-top: 48px; padding-bottom: 48px;">
-            <a href="javascript:history.back()" class="back-link animate-in">← Back</a>
+        <article class="container-sm" style="padding-top: 64px; padding-bottom: 120px;">
+            <a href="javascript:history.back()" class="btn btn-outline" style="margin-bottom: 40px; border-radius: 6px; padding: 6px 12px; font-size: 0.85rem;">&larr; Back to Network</a>
 
-            <div class="post-header-card glass animate-in animate-in-delay-1">
-                <h1><%= post.title %></h1>
-                <div class="post-meta" style="font-size: 0.95rem; margin-top: 12px;">
-                    <div class="avatar avatar-sm">
-                        <%= post.author.name.charAt(0).toUpperCase() %>
+            <header style="margin-bottom: 48px; border-bottom: 1px solid var(--border-light); padding-bottom: 32px;">
+                <h1 style="font-size: 3.5rem; margin-bottom: 24px; line-height: 1.1;"><%= post.title %></h1>
+                
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted);">
+                        <div class="avatar avatar-sm">
+                            <%= post.author.name.charAt(0).toUpperCase() %>
+                        </div>
+                        <strong style="color: var(--text-main); font-size: 1rem;"><%= post.author.name %></strong> 
+                        <span style="opacity: 0.5;">/</span>
+                        <span><%= new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                        <span style="opacity: 0.5;">/</span>
+                        <span>⏱️ <%= Math.max(1, Math.ceil(post.content.split(' ').length / 200)) %> min read</span>
                     </div>
-                    <strong style="color: var(--text-primary); margin-left: 8px;"><%= post.author.name %></strong> 
-                    &nbsp;•&nbsp; <%= new Date(post.createdAt).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
-                    &nbsp;•&nbsp; ⏱️ <%= Math.max(1, Math.ceil(post.content.split(' ').length / 200)) %> min read
-                </div>
-            </div>
 
-            <div class="post-content-card glass animate-in animate-in-delay-2">
-                <div class="post-content"><%= post.content %></div>
-
-                <!-- Engagement Bar -->
-                <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
-                    <form action="/post/<%= post._id %>/like" method="POST">
+                    <form action="/post/<%= post._id %>/like" method="POST" style="margin: 0;">
                         <% const hasLiked = user && post.likes && post.likes.includes(user._id); %>
-                        <button type="submit" class="like-btn <%= hasLiked ? 'liked' : '' %>" style="font-size: 1rem; padding: 10px 18px;">
-                            <svg width="20" height="20" fill="<%= hasLiked ? 'currentColor' : 'none' %>" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                            <%= post.likes ? post.likes.length : 0 %> Likes
+                        <button type="submit" class="btn <%= hasLiked ? 'btn-primary' : 'btn-outline' %>" style="border-radius: 6px; padding: 8px 16px;">
+                            <svg width="16" height="16" fill="<%= hasLiked ? 'currentColor' : 'none' %>" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right: 6px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <%= post.likes ? post.likes.length : 0 %> Approvals
                         </button>
                     </form>
-
-                    <% if (user && user._id.toString() === post.author._id.toString()) { %>
-                        <div style="display: flex; gap: 10px;">
-                            <a href="/post/<%= post._id %>/edit" class="btn btn-secondary">✏️ Edit</a>
-                            <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline;">
-                                <button type="submit" class="btn btn-danger">🗑️ Delete</button>
-                            </form>
-                        </div>
-                    <% } %>
                 </div>
+            </header>
+
+            <div class="article-content" style="font-size: 1.25rem; line-height: 1.8; color: var(--text-main); white-space: pre-wrap; margin-bottom: 64px;">
+                <%= post.content %>
+            </div>
+
+            <footer style="border-top: 1px solid var(--border-light); padding-top: 32px;">
+                <% if (user && user._id.toString() === post.author._id.toString()) { %>
+                    <div style="display: flex; gap: 12px; margin-bottom: 40px; justify-content: flex-end;">
+                        <a href="/post/<%= post._id %>/edit" class="btn btn-secondary">Edit Document</a>
+                        <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline; margin: 0;">
+                            <button type="submit" class="btn btn-danger">Purge Record</button>
+                        </form>
+                    </div>
+                <% } %>
 
                 <!-- Author Bio Box -->
-                <div class="post-author-box">
-                    <div class="avatar avatar-md">
+                <div class="card" style="display: flex; gap: 24px; align-items: center; margin-bottom: 40px;">
+                    <div class="avatar avatar-lg" style="width: 80px; height: 80px; flex-shrink: 0; font-size: 2rem;">
                         <%= post.author.name.charAt(0).toUpperCase() %>
                     </div>
                     <div>
-                        <strong style="color: var(--text-primary); font-size: 1.1rem;">Written by <%= post.author.name %></strong>
-                        <p><%= post.author.bio || 'A passionate developer sharing knowledge on DevConnect.' %></p>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 8px;">Written by <%= post.author.name %></h3>
+                        <p style="font-size: 1rem; color: var(--text-muted);"><%= post.author.bio || 'Engineer & Contributor on DevConnect.' %></p>
                     </div>
                 </div>
 
                 <!-- Related Posts -->
                 <% if (typeof morePosts !== 'undefined' && morePosts.length > 0) { %>
-                    <div class="related-posts" style="margin-top: 40px;">
-                        <h3>More from <%= post.author.name %></h3>
-                        <% morePosts.forEach(mp => { %>
-                            <a href="/post/<%= mp._id %>" class="related-post-link">
-                                <strong><%= mp.title %></strong>
-                                <span style="display: block; font-size: 0.8rem; margin-top: 4px;"><%= new Date(mp.createdAt).toLocaleDateString() %></span>
-                            </a>
-                        <% }) %>
+                    <div style="margin-top: 48px;">
+                        <h3 style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; color: var(--text-muted);">More from <%= post.author.name %></h3>
+                        <div style="display: grid; gap: 16px;">
+                            <% morePosts.forEach(mp => { %>
+                                <a href="/post/<%= mp._id %>" class="card" style="padding: 24px; text-decoration: none; color: inherit; display: block;">
+                                    <h4 style="font-size: 1.15rem; margin-bottom: 8px;"><%= mp.title %></h4>
+                                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted);"><%= new Date(mp.createdAt).toLocaleDateString() %></span>
+                                </a>
+                            <% }) %>
+                        </div>
                     </div>
                 <% } %>
-            </div>
-        </div>
+            </footer>
+        </article>
     </main>
 
     <%- include('../partials/footer') %>

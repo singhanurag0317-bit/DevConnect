@@ -8,64 +8,72 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <%- include('../partials/navbar') %>
+    <div class="navbar-wrapper">
+        <%- include('../partials/navbar') %>
+    </div>
 
-    <main class="flex-1">
-        <div class="container-wide" style="padding-top: 48px; padding-bottom: 48px;">
-            <div class="page-header animate-in">
-                <h1 class="page-title gradient-text-warm">Craft Your Story</h1>
-                <p class="page-subtitle">Share your knowledge with the DevConnect community</p>
+    <main class="flex-1" style="padding-top: 40px; padding-bottom: 100px;">
+        <div class="container-wide">
+            
+            <div class="section-header" style="margin-bottom: 32px;">
+                <span class="badge">Editor</span>
+                <h1 style="font-size: 2.5rem; margin-bottom: 8px;">Draft New Document</h1>
+                <p style="font-size: 1.1rem; color: var(--text-muted);">Format using Markdown. Code blocks are fully supported.</p>
             </div>
 
             <div class="write-layout">
                 <!-- Editor Main Area -->
-                <div class="form-card glass animate-in animate-in-delay-1">
+                <div>
                     <% if (error) { %>
-                        <div class="alert alert-error">⚠️ <%= error %></div>
+                        <div class="alert alert-error">Error: <%= error %></div>
                     <% } %>
 
-                    <form action="/post/create" method="POST" id="postForm">
-                        <div class="input-group">
-                            <label for="title" class="form-label">Post Title</label>
-                            <input type="text" id="title" name="title" class="input" style="font-size: 1.5rem; padding: 16px 20px;" placeholder="e.g. Building a REST API with Node.js..." required />
+                    <form action="/post/create" method="POST" id="postForm" class="card" style="padding: 40px;">
+                        <div class="form-group">
+                            <label for="title" class="form-label" style="font-size: 0.95rem;">Document Title</label>
+                            <input type="text" id="title" name="title" class="form-input" style="font-size: 1.5rem; padding: 16px; font-weight: 700; border-radius: 8px;" placeholder="e.g. System Architecture for V2..." required />
                         </div>
 
-                        <div class="input-group">
-                            <label for="content" class="form-label">Content (Supports Markdown Format)</label>
-                            <div class="editor-toolbar">
-                                <button type="button" class="toolbar-btn" title="Bold"><b>B</b></button>
-                                <button type="button" class="toolbar-btn" title="Italic"><i>I</i></button>
-                                <button type="button" class="toolbar-btn" title="Code"><code>&lt;/&gt;</code></button>
-                                <button type="button" class="toolbar-btn" title="Link">🔗</button>
+                        <div class="form-group" style="margin-bottom: 32px;">
+                            <label for="content" class="form-label" style="font-size: 0.95rem;">Content Buffer</label>
+                            <div style="border: 1px solid var(--border-bold); border-bottom: none; padding: 8px 12px; background: var(--bg-surface); border-radius: 8px 8px 0 0; display: flex; gap: 8px;">
+                                <button type="button" class="btn btn-outline" style="padding: 4px 12px; border: none; font-size: 0.85rem;" title="Bold"><b>B</b></button>
+                                <button type="button" class="btn btn-outline" style="padding: 4px 12px; border: none; font-size: 0.85rem;" title="Italic"><i>I</i></button>
+                                <button type="button" class="btn btn-outline" style="padding: 4px 12px; border: none; font-family: monospace; font-size: 0.85rem;" title="Code">&lt;/&gt;</button>
                             </div>
-                            <textarea id="content" name="content" class="input" style="height: 400px; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; border-top-left-radius: 0; border-top-right-radius: 0;" placeholder="Start writing your amazing post here..."></textarea>
+                            <textarea id="content" name="content" class="form-input" style="height: 450px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6; border-radius: 0 0 8px 8px; resize: vertical;" placeholder="Initialize document body here..."></textarea>
                         </div>
 
-                        <div style="display:flex; justify-content: space-between; align-items:center;">
-                            <div style="display:flex; gap:14px; align-items:center;">
-                                <button type="submit" class="btn btn-primary">🚀 Publish Post</button>
-                                <a href="/dashboard" class="btn btn-ghost">Cancel</a>
+                        <div style="display:flex; justify-content: space-between; align-items:center; border-top: 1px solid var(--border-light); padding-top: 24px;">
+                            <div style="display:flex; gap:16px; align-items:center;">
+                                <button type="submit" class="btn btn-primary">Commit Document</button>
+                                <a href="/dashboard" class="btn btn-outline">Discard Draft</a>
                             </div>
-                            <div style="color: var(--text-muted); font-size: 0.85rem;" id="wordCount">0 words</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted);" id="wordCount">Word Count: 0</div>
                         </div>
                     </form>
                 </div>
 
                 <!-- Writing Tips Sidebar -->
-                <aside class="animate-in animate-in-delay-2">
-                    <div class="glass widget">
-                        <h3 class="widget-title">💡 Writing Guidelines</h3>
-                        <div style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
-                            <p style="margin-bottom: 16px;">Make your post stand out in the community:</p>
+                <aside>
+                    <div class="card" style="position: sticky; top: 120px;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 24px; border-bottom: 1px solid var(--border-light); padding-bottom: 16px;">Publishing Intel</h3>
+                        <div style="color: var(--text-main); font-size: 0.9rem; line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
                             
-                            <strong style="color: var(--amber); display: block; margin-bottom: 4px;">1. Catchy Title</strong>
-                            <p style="margin-bottom: 12px; font-size: 0.85rem;">A clear, concise title helps readers understand what to expect.</p>
+                            <div>
+                                <strong style="color: var(--accent-green); display: block; margin-bottom: 4px;">// 01. Naming Convention</strong>
+                                <p style="color: var(--text-muted);">Ensure the title reflects the exact technical domain or problem solved.</p>
+                            </div>
                             
-                            <strong style="color: var(--emerald); display: block; margin-bottom: 4px;">2. Value First</strong>
-                            <p style="margin-bottom: 12px; font-size: 0.85rem;">Start with the problem you're solving or the insight you're sharing.</p>
+                            <div>
+                                <strong style="color: var(--accent-gold); display: block; margin-bottom: 4px;">// 02. Structure & Hierarchy</strong>
+                                <p style="color: var(--text-muted);">Use markdown headings (##) to divide complex systems into digestible blocks.</p>
+                            </div>
                             
-                            <strong style="color: var(--coral); display: block; margin-bottom: 4px;">3. Code Formatting</strong>
-                            <p style="font-size: 0.85rem;">If you're sharing code, make sure it's readable and properly spaced.</p>
+                            <div>
+                                <strong style="color: var(--text-main); display: block; margin-bottom: 4px;">// 03. Code Blocks</strong>
+                                <p style="color: var(--text-muted);">Surround code with triple backticks (```) for accurate syntax rendering.</p>
+                            </div>
                         </div>
                     </div>
                 </aside>
@@ -80,7 +88,7 @@
         document.getElementById('content').addEventListener('input', function(e) {
             const text = e.target.value.trim();
             const words = text ? text.split(/\s+/).length : 0;
-            document.getElementById('wordCount').textContent = words + (words === 1 ? ' word' : ' words');
+            document.getElementById('wordCount').textContent = 'Word Count: ' + words;
         });
     </script>
 </body>

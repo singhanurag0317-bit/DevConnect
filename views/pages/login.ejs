@@ -8,28 +8,33 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="auth-wrapper">
-        <div class="auth-card glass animate-in">
-            <div class="auth-brand gradient-text">DevConnect</div>
-            <h1 class="auth-title">Welcome Back</h1>
-            <p class="auth-sub">Sign in to your account</p>
-            <hr class="auth-divider">
+    <div class="auth-container">
+        <div class="auth-box">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <a href="/" style="font-weight: 900; font-size: 1.5rem; letter-spacing: -0.05em; color: var(--text-main);">DevConnect</a>
+            </div>
+            <h1>Authentication</h1>
+            <p>Access your dashboard and the network.</p>
 
             <% if (error) { %>
-                <div class="alert alert-error animate-in animate-in-delay-1">⚠️ <%= error %></div>
+                <div class="alert alert-error">Error: <%= error %></div>
             <% } %>
 
             <form action="/auth/login" method="POST">
-                <div class="input-group">
-                    <input type="email" name="email" class="input" placeholder="Email address" required />
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="name@domain.com" required />
                 </div>
-                <div class="input-group">
-                    <input type="password" name="password" class="input" placeholder="Password" required />
+                <div class="form-group">
+                    <label class="form-label" for="password">Security Token</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required />
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%;">Sign In</button>
+                <button type="submit" class="btn btn-primary form-submit">Initialize Session</button>
             </form>
 
-            <p class="auth-footer">Don't have an account? <a href="/auth/register">Create one</a></p>
+            <p style="text-align: center; margin-top: 32px; font-size: 0.9rem; color: var(--text-muted);">
+                Unregistered? <a href="/auth/register" style="color: var(--text-main); font-weight: 600; text-decoration: underline;">Request Access</a>
+            </p>
         </div>
     </div>
 </body>

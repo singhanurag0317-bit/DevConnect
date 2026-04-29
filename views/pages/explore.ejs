@@ -8,47 +8,47 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <%- include('../partials/navbar') %>
+    <div class="navbar-wrapper">
+        <%- include('../partials/navbar') %>
+    </div>
 
-    <main class="flex-1">
-        <div class="container-narrow">
-            <div class="page-header animate-in">
-                <h1 class="page-title gradient-text-warm">Explore Community</h1>
-                <p class="page-subtitle">Discover the latest articles from <%= totalUsers %> developers worldwide.</p>
+    <main class="flex-1" style="padding-top: 60px; padding-bottom: 100px;">
+        <div class="container-sm">
+            <div class="section-header">
+                <span class="badge">Explore Feed</span>
+                <h1 style="font-size: 3rem; margin-bottom: 12px; color: var(--text-main);">Community Intel</h1>
+                <p style="font-size: 1.15rem; color: var(--text-muted);">Discover the latest technical articles from <%= totalUsers %> engineers worldwide.</p>
             </div>
 
-            <div style="margin-top: 12px;">
+            <div style="margin-top: 40px;">
                 <% if (posts.length === 0) { %>
-                    <div class="empty-state glass animate-in animate-in-delay-1">
-                        <p>No posts available yet.</p>
+                    <div class="card" style="text-align: center; padding: 60px;">
+                        <p class="mono">No articles available yet.</p>
                     </div>
                 <% } else { %>
                     <% posts.forEach((post, i) => { %>
-                        <div class="post-card glass animate-in" style="animation-delay: <%= 0.1 * i %>s">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <span class="tag">Community</span>
-                                    <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
-                                </div>
+                        <div class="post-card">
+                            <div class="post-meta">
                                 <div class="avatar avatar-sm" title="<%= post.author.name %>">
                                     <%= post.author.name.charAt(0).toUpperCase() %>
                                 </div>
+                                <span><%= post.author.name %></span>
+                                <span style="opacity: 0.5;">/</span>
+                                <span><%= new Date(post.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+                                <span class="badge" style="margin-left: auto;">Community</span>
                             </div>
-                            <div class="post-meta">
-                                By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
-                                <%= new Date(post.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %>
-                            </div>
-                            <p class="post-excerpt"><%= post.content.substring(0, 200) %>...</p>
+                            <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
+                            <p><%= post.content.substring(0, 180) %>...</p>
                             
-                            <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px;">
-                                <form action="/post/<%= post._id %>/like" method="POST" style="display:inline;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 16px;">
+                                <form action="/post/<%= post._id %>/like" method="POST" style="margin: 0;">
                                     <% const hasLiked = user && post.likes && post.likes.includes(user._id); %>
-                                    <button type="submit" class="like-btn <%= hasLiked ? 'liked' : '' %>">
-                                        <svg width="16" height="16" fill="<%= hasLiked ? 'currentColor' : 'none' %>" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    <button type="submit" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">
+                                        <svg width="14" height="14" fill="<%= hasLiked ? 'var(--text-main)' : 'none' %>" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right: 6px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                                         <%= post.likes ? post.likes.length : 0 %>
                                     </button>
                                 </form>
-                                <a href="/post/<%= post._id %>" class="btn btn-ghost" style="padding: 6px 12px; font-size: 0.85rem;">Read More →</a>
+                                <a href="/post/<%= post._id %>" class="btn btn-secondary" style="padding: 6px 16px; font-size: 0.85rem;">Read Document &rarr;</a>
                             </div>
                         </div>
                     <% }) %>

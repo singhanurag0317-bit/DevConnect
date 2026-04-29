@@ -8,80 +8,86 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <%- include('../partials/navbar') %>
+    <div class="navbar-wrapper">
+        <%- include('../partials/navbar') %>
+    </div>
 
-    <main class="flex-1">
+    <main class="flex-1" style="padding-top: 40px; padding-bottom: 100px;">
         <div class="container-wide">
-            <div class="dashboard-layout">
+            <div class="dashboard-grid">
+                
+                <!-- Sidebar (Profile) -->
+                <aside class="profile-panel">
+                    <div class="profile-card">
+                        <div class="avatar avatar-lg">
+                            <%= user.name.charAt(0).toUpperCase() %>
+                        </div>
+                        <h3><%= user.name %></h3>
+                        <p><%= user.bio || 'Software Engineer' %></p>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-col">
+                                <h4><%= typeof userPostCount !== 'undefined' ? userPostCount : 0 %></h4>
+                                <span>Articles</span>
+                            </div>
+                            <div class="stat-col">
+                                <h4><%= typeof totalUsers !== 'undefined' ? totalUsers : 0 %></h4>
+                                <span>Peers</span>
+                            </div>
+                        </div>
+                        <a href="/post/create" class="btn btn-primary" style="width: 100%; margin-top: 24px;">New Document</a>
+                    </div>
+
+                    <div class="card mt-8">
+                        <h4 style="margin-bottom: 16px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">Platform Intel</h4>
+                        <ul style="list-style: none; font-size: 0.9rem; display: flex; flex-direction: column; gap: 12px; color: var(--text-main);">
+                            <li><span style="color: var(--accent-green); margin-right: 8px;">→</span> Keep titles high-signal.</li>
+                            <li><span style="color: var(--accent-green); margin-right: 8px;">→</span> Document architectures.</li>
+                            <li><span style="color: var(--accent-green); margin-right: 8px;">→</span> Review peer implementations.</li>
+                        </ul>
+                    </div>
+                </aside>
+
                 <!-- Main Feed -->
                 <div>
-                    <div class="page-header animate-in">
-                        <h1 class="page-title gradient-text">Your Dashboard</h1>
-                        <p class="page-subtitle">Welcome back, manage your content and stay updated.</p>
+                    <div class="section-header" style="margin-bottom: 32px;">
+                        <h1 style="font-size: 2.5rem; margin-bottom: 8px;">System Dashboard</h1>
+                        <p style="font-size: 1.1rem; color: var(--text-muted);">Overview of platform activity and documentation.</p>
                     </div>
 
-                    <div style="display: flex; gap: 16px; margin-bottom: 28px;" class="animate-in animate-in-delay-1">
-                        <a href="/post/create" class="btn btn-primary">✏️ Write a New Post</a>
-                        <a href="/explore" class="btn btn-ghost">🌍 Explore Community</a>
+                    <div style="display: flex; gap: 16px; margin-bottom: 40px;">
+                        <a href="/post/create" class="btn btn-primary">Create Record</a>
+                        <a href="/explore" class="btn btn-outline">Explore Network</a>
                     </div>
-
-                    <h2 class="widget-title animate-in animate-in-delay-1">Recent Activity</h2>
                     
                     <% if (posts.length === 0) { %>
-                        <div class="empty-state glass animate-in animate-in-delay-2">
-                            <p>No posts on the platform yet.</p>
-                            <a href="/post/create">Be the first to write! →</a>
+                        <div class="card" style="text-align: center; padding: 60px;">
+                            <p class="mono">No records found on the network.</p>
+                            <a href="/post/create" class="btn btn-outline" style="margin-top: 24px;">Initialize First Record</a>
                         </div>
                     <% } else { %>
                         <% posts.forEach(post => { %>
-                            <div class="post-card glass">
-                                <span class="tag">Article</span>
-                                <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
-                                <div class="post-meta">
-                                    By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
-                                    <%= new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %>
-                                    &nbsp;•&nbsp;
-                                    <span style="color: var(--coral);">❤️ <%= post.likes ? post.likes.length : 0 %> likes</span>
+                            <div class="post-card">
+                                <div class="post-meta" style="margin-bottom: 12px;">
+                                    <span class="badge">Article</span>
+                                    <span style="margin-left: 12px;"><%= post.author.name %></span>
+                                    <span style="opacity: 0.5;">/</span>
+                                    <span><%= new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
                                 </div>
-                                <p class="post-excerpt"><%= post.content.substring(0, 180) %>...</p>
+                                <h2><a href="/post/<%= post._id %>"><%= post.title %></a></h2>
+                                <p><%= post.content.substring(0, 220) %>...</p>
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-light);">
+                                    <span style="font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono';">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 4px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                        <%= post.likes ? post.likes.length : 0 %> Approvals
+                                    </span>
+                                    <a href="/post/<%= post._id %>" style="font-size: 0.9rem; font-weight: 600;">View Thread &rarr;</a>
+                                </div>
                             </div>
                         <% }) %>
                     <% } %>
                 </div>
 
-                <!-- Sidebar -->
-                <aside class="animate-in animate-in-delay-2">
-                    <!-- Profile Card -->
-                    <div class="glass profile-card">
-                        <div class="avatar avatar-lg">
-                            <%= user.name.charAt(0).toUpperCase() %>
-                        </div>
-                        <h3 class="profile-name"><%= user.name %></h3>
-                        <p class="profile-bio"><%= user.bio || 'Passionate developer and continuous learner.' %></p>
-                        
-                        <div class="profile-stats">
-                            <div class="profile-stat">
-                                <strong><%= typeof userPostCount !== 'undefined' ? userPostCount : 0 %></strong>
-                                <span>Posts</span>
-                            </div>
-                            <div class="profile-stat">
-                                <strong><%= typeof totalUsers !== 'undefined' ? totalUsers : 0 %></strong>
-                                <span>Network</span>
-                            </div>
-                        </div>
-                        <a href="/post/create" class="btn btn-secondary" style="width: 100%; justify-content: center;">Create Post</a>
-                    </div>
-
-                    <!-- Trending Widget -->
-                    <div class="glass widget mt-4">
-                        <h3 class="widget-title">🔥 Pro Tips</h3>
-                        <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; display: flex; flex-direction: column; gap: 12px;">
-                            <li>• Use descriptive titles for better visibility.</li>
-                            <li>• Add code snippets to illustrate your points.</li>
-                            <li>• Engage with other developers by liking their posts!</li>
-                        </ul>
-                    </div>
-                </aside>
             </div>
         </div>
     </main>

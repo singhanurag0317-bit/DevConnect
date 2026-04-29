@@ -4,224 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="DevConnect — Where developers share ideas, write articles, and grow together. Join the community.">
-    <title>DevConnect — Developer Community Platform</title>
+    <title>DevConnect — Developer Community</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- ─── Landing Navbar ─── -->
-    <nav class="navbar">
-        <a href="/" class="navbar-brand">DevConnect</a>
-        <div class="navbar-links">
-            <a href="#features" class="nav-link">Features</a>
-            <a href="#how-it-works" class="nav-link">How It Works</a>
-            <a href="#stats" class="nav-link">Community</a>
-            <a href="/auth/login" class="nav-link">Sign In</a>
-            <a href="/auth/register" class="nav-btn">Get Started Free</a>
-        </div>
-    </nav>
+    <div class="navbar-wrapper">
+        <%- include('../partials/navbar') %>
+    </div>
 
-    <main class="flex-1">
-
+    <main>
         <!-- ═══════════ HERO ═══════════ -->
-        <section class="hero">
-            <div class="hero-badge animate-in">🔥 Trusted by developers worldwide</div>
-            <h1 class="hero-title animate-in animate-in-delay-1">
-                Where Developers<br>
-                <span class="gradient-text">Share & Grow</span>
-            </h1>
-            <p class="hero-sub animate-in animate-in-delay-2">
-                Write articles, share code insights, and connect with a passionate developer community. 
-                Your knowledge deserves an audience.
-            </p>
-            <div class="hero-actions animate-in animate-in-delay-3">
-                <a href="/auth/register" class="btn btn-primary btn-lg">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    Start Writing — It's Free
-                </a>
-                <a href="#features" class="btn btn-secondary btn-lg">Learn More →</a>
+        <section class="hero container">
+            <div class="hero-content">
+                <div class="section-header" style="margin-bottom: 24px;">
+                    <span class="badge">v2.0 Beta</span>
+                </div>
+                <h1>Code. Share.<br><span class="text-accent">Iterate.</span></h1>
+                <p>A minimalist, high-signal platform for engineers to document findings, share architectural decisions, and build reputation.</p>
+                <div class="hero-actions">
+                    <a href="/auth/register" class="btn btn-primary">Start Writing</a>
+                    <a href="#features" class="btn btn-secondary">Explore Platform</a>
+                </div>
             </div>
-
-            <!-- Hero glow decoration -->
-            <div class="hero-glow"></div>
-            <div class="hero-glow hero-glow-2"></div>
-        </section>
-
-        <!-- ═══════════ LIVE STATS BAR ═══════════ -->
-        <section class="stats-bar animate-in" id="stats">
-            <div class="stats-bar-inner">
-                <div class="stat-item">
-                    <div class="stat-number" data-count="<%= stats.users %>"><%= stats.users %></div>
-                    <div class="stat-label">Developers</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="<%= stats.posts %>"><%= stats.posts %></div>
-                    <div class="stat-label">Posts Published</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="<%= stats.likes %>"><%= stats.likes %></div>
-                    <div class="stat-label">Likes Given</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-number">∞</div>
-                    <div class="stat-label">Ideas Shared</div>
+            
+            <div class="hero-visual">
+                <div class="bento-hero">
+                    <div class="bento-box">
+                        <div class="code-line w-full green"></div>
+                        <div class="code-line w-half"></div>
+                    </div>
+                    <div class="bento-box"></div>
+                    <div class="bento-box lg">
+                        <div class="code-line w-full"></div>
+                        <div class="code-line w-full"></div>
+                        <div class="code-line w-half green"></div>
+                    </div>
+                    <div class="bento-box">
+                        <div class="code-line w-half"></div>
+                    </div>
+                    <div class="bento-box"></div>
+                    <div class="bento-box"></div>
+                    <div class="bento-box"></div>
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════ FEATURES ═══════════ -->
-        <section class="section" id="features">
-            <div class="container-wide">
-                <div class="section-header">
-                    <span class="section-badge">FEATURES</span>
-                    <h2 class="section-title">Everything You Need to <span class="gradient-text-warm">Thrive</span></h2>
-                    <p class="section-sub">Powerful tools built for developers who love to share knowledge</p>
+        <!-- ═══════════ STATS BANNER ═══════════ -->
+        <section class="container">
+            <div class="stats-banner">
+                <div class="stat-item">
+                    <div class="stat-val" data-count="<%= stats.users %>"><%= stats.users %></div>
+                    <div class="stat-lbl">Engineers</div>
                 </div>
-
-                <div class="feature-grid">
-                    <div class="feature-card glass">
-                        <div class="feature-icon feature-icon-amber">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                        </div>
-                        <h3>Rich Text Editor</h3>
-                        <p>Write beautiful articles with our intuitive editor. Focus on your content, we handle the formatting.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon feature-icon-coral">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                        </div>
-                        <h3>Like & Engage</h3>
-                        <p>Show appreciation for great content. Like posts, build your reputation, and discover trending articles.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon feature-icon-emerald">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        </div>
-                        <h3>Developer Community</h3>
-                        <p>Connect with like-minded developers. Share experiences, learn from others, and grow together.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon feature-icon-amber">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-                        </div>
-                        <h3>Personal Dashboard</h3>
-                        <p>Track your posts, see community stats, and manage your content — all from one powerful dashboard.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon feature-icon-coral">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        </div>
-                        <h3>Open & Free</h3>
-                        <p>No paywalls, no premium tiers. DevConnect is completely free for every developer, forever.</p>
-                    </div>
-                    <div class="feature-card glass">
-                        <div class="feature-icon feature-icon-emerald">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
-                        <h3>Secure & Private</h3>
-                        <p>Your data is encrypted and secure. We respect your privacy — no tracking, no ads, no data selling.</p>
-                    </div>
+                <div class="stat-item">
+                    <div class="stat-val" data-count="<%= stats.posts %>"><%= stats.posts %></div>
+                    <div class="stat-lbl">Articles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" data-count="<%= stats.likes %>"><%= stats.likes %></div>
+                    <div class="stat-lbl">Insights Shared</div>
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════ HOW IT WORKS ═══════════ -->
-        <section class="section section-alt" id="how-it-works">
-            <div class="container-wide">
-                <div class="section-header">
-                    <span class="section-badge">HOW IT WORKS</span>
-                    <h2 class="section-title">Get Started in <span class="gradient-text">3 Simple Steps</span></h2>
-                    <p class="section-sub">From sign-up to publishing your first article in under 2 minutes</p>
+        <!-- ═══════════ BENTO FEATURES ═══════════ -->
+        <section class="section container" id="features">
+            <div class="section-header text-center" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                <span class="badge">Architecture</span>
+                <h2>Built for the <span class="text-accent">modern workflow</span>.</h2>
+                <p>No distractions. Just a clean environment to document and discover.</p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Large Feature 1 -->
+                <div class="bento-card bento-span-2 bento-row-2">
+                    <div class="bento-pattern-dots"></div>
+                    <div class="icon">
+                        <svg width="24" height="24" fill="none" stroke="var(--text-main)" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </div>
+                    <h3 class="mt-8">Distraction-Free Editor</h3>
+                    <p>A pristine canvas designed strictly for content. Support for markdown syntax, code blocks, and fast publishing without the bloat of traditional WYSIWYG editors.</p>
                 </div>
 
-                <div class="steps-grid">
-                    <div class="step-card glass">
-                        <div class="step-number">01</div>
-                        <h3>Create Your Account</h3>
-                        <p>Sign up with just your name, email, and a password. No credit card, no hidden fees.</p>
-                        <div class="step-line"></div>
+                <!-- Small Feature -->
+                <div class="bento-card">
+                    <div class="icon">
+                        <svg width="24" height="24" fill="none" stroke="var(--accent-green)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </div>
-                    <div class="step-card glass">
-                        <div class="step-number">02</div>
-                        <h3>Write Your Post</h3>
-                        <p>Use our clean editor to craft your article. Share code tips, tutorials, or career insights.</p>
-                        <div class="step-line"></div>
+                    <h3>Developer Community</h3>
+                    <p>Connect with peers, share repositories, and discuss system designs.</p>
+                </div>
+
+                <!-- Small Feature -->
+                <div class="bento-card">
+                    <div class="icon">
+                        <svg width="24" height="24" fill="none" stroke="var(--text-main)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
                     </div>
-                    <div class="step-card glass">
-                        <div class="step-number">03</div>
-                        <h3>Publish & Engage</h3>
-                        <p>Hit publish and your post goes live instantly. Get likes, build followers, and join the conversation.</p>
+                    <h3>Command Dashboard</h3>
+                    <p>Track metrics, manage drafts, and organize your technical knowledge base.</p>
+                </div>
+
+                <!-- Medium Feature -->
+                <div class="bento-card bento-span-2">
+                    <div class="bento-pattern-graph"></div>
+                    <div class="icon">
+                        <svg width="24" height="24" fill="none" stroke="var(--accent-green)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                     </div>
+                    <h3>High Signal, Low Noise</h3>
+                    <p>The feed algorithm strictly prioritizes technical depth and peer appreciation over clickbait.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════ TESTIMONIALS ═══════════ -->
-        <section class="section">
-            <div class="container-wide">
-                <div class="section-header">
-                    <span class="section-badge">COMMUNITY</span>
-                    <h2 class="section-title">Loved by <span class="gradient-text-warm">Developers</span></h2>
-                    <p class="section-sub">See what our community members are saying</p>
+        <!-- ═══════════ TESTIMONIALS / QUOTES ═══════════ -->
+        <section class="section container">
+            <div class="section-header">
+                <span class="badge">Feedback</span>
+                <h2>What engineers are saying.</h2>
+            </div>
+            
+            <div class="bento-grid" style="grid-auto-rows: auto;">
+                <div class="card">
+                    <p style="font-size: 1.1rem; margin-bottom: 24px; color: var(--text-main);">"DevConnect strips away the fluff. It’s like a minimalist GitHub for blogging. The typography is perfect."</p>
+                    <div class="flex-between">
+                        <div>
+                            <strong style="display: block;">Aarav Patel</strong>
+                            <span style="font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Full-Stack Dev</span>
+                        </div>
+                        <div class="avatar">A</div>
+                    </div>
                 </div>
-
-                <div class="testimonial-grid">
-                    <div class="testimonial-card glass">
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p>"DevConnect changed how I share knowledge. The editor is clean, the community is welcoming, and I've grown so much as a writer."</p>
-                        <div class="testimonial-author">
-                            <div class="avatar avatar-sm">A</div>
-                            <div>
-                                <strong>Aarav Patel</strong>
-                                <span>Full-Stack Developer</span>
-                            </div>
+                <div class="card">
+                    <p style="font-size: 1.1rem; margin-bottom: 24px; color: var(--text-main);">"I used to write on Medium, but it felt too commercial. This feels like it was actually built by an engineer, for engineers."</p>
+                    <div class="flex-between">
+                        <div>
+                            <strong style="display: block;">Sophia Chen</strong>
+                            <span style="font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono';">Frontend Eng</span>
                         </div>
+                        <div class="avatar">S</div>
                     </div>
-                    <div class="testimonial-card glass">
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p>"I was looking for a simple platform to write dev articles without distractions. DevConnect is exactly that — minimal, fast, beautiful."</p>
-                        <div class="testimonial-author">
-                            <div class="avatar avatar-sm">S</div>
-                            <div>
-                                <strong>Sophia Chen</strong>
-                                <span>Frontend Engineer</span>
-                            </div>
+                </div>
+                <div class="card" style="grid-column: span 2;">
+                    <p style="font-size: 1.25rem; font-weight: 500; margin-bottom: 24px; color: var(--text-main);">"The light theme with the graph paper background is incredibly nostalgic and clean. It puts the focus entirely on the code and the content. Hands down the best developer blogging platform right now."</p>
+                    <div class="flex-between">
+                        <div>
+                            <strong style="display: block;">Marcus Rivera</strong>
+                            <span style="font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono';">DevOps Engineer</span>
                         </div>
-                    </div>
-                    <div class="testimonial-card glass">
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p>"The glassmorphism UI is stunning and the whole platform feels premium. I've never enjoyed blogging more. Highly recommend!"</p>
-                        <div class="testimonial-author">
-                            <div class="avatar avatar-sm">M</div>
-                            <div>
-                                <strong>Marcus Rivera</strong>
-                                <span>DevOps Engineer</span>
-                            </div>
-                        </div>
+                        <div class="avatar avatar-md" style="width: 48px; height: 48px;">M</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ═══════════ CTA ═══════════ -->
-        <section class="cta-section">
-            <div class="cta-inner glass">
-                <h2 class="cta-title">Ready to Share Your <span class="gradient-text">Knowledge</span>?</h2>
-                <p class="cta-sub">Join thousands of developers already writing on DevConnect. Your first post is just minutes away.</p>
-                <div class="cta-actions">
-                    <a href="/auth/register" class="btn btn-primary btn-lg">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                        Create Free Account
-                    </a>
-                    <a href="/auth/login" class="btn btn-secondary btn-lg">I Already Have an Account</a>
-                </div>
+        <section class="section container" style="padding-bottom: 160px; text-align: center;">
+            <div class="card" style="padding: 80px 40px; background: var(--bg-surface);">
+                <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Ready to publish?</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto;">Join the platform where serious developers document their work.</p>
+                <a href="/auth/register" class="btn btn-primary" style="font-size: 1.1rem; padding: 16px 32px;">Create Account</a>
             </div>
         </section>
+
     </main>
 
-    <!-- ─── Rich Footer ─── -->
     <%- include('../partials/footer') %>
 </body>
 </html>
