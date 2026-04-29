@@ -17,7 +17,7 @@
             <div class="post-header-card glass animate-in animate-in-delay-1">
                 <h1><%= post.title %></h1>
                 <div class="post-meta" style="font-size: 0.95rem; margin-top: 12px;">
-                    <div class="avatar avatar-sm" style="background: linear-gradient(135deg, var(--coral), var(--amber));">
+                    <div class="avatar avatar-sm">
                         <%= post.author.name.charAt(0).toUpperCase() %>
                     </div>
                     <strong style="color: var(--text-primary); margin-left: 8px;"><%= post.author.name %></strong> 
@@ -51,7 +51,7 @@
 
                 <!-- Author Bio Box -->
                 <div class="post-author-box">
-                    <div class="avatar avatar-md" style="background: linear-gradient(135deg, var(--emerald), var(--amber));">
+                    <div class="avatar avatar-md">
                         <%= post.author.name.charAt(0).toUpperCase() %>
                     </div>
                     <div>
