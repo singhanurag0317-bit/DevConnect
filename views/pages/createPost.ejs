@@ -3,126 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Write and share a new post on DevConnect.">
     <title>Write a Post — DevConnect</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html, body { height:100%; }
-        body {
-            background:#0a0a0a;
-            color:#e0e0e0;
-            font-family:'Inter', sans-serif;
-            display:flex;
-            flex-direction:column;
-            min-height:100vh;
-        }
-        main { flex:1; }
-        .container { max-width:740px; margin:48px auto; padding:0 24px; }
-        h1 {
-            font-size:2rem;
-            font-weight:800;
-            background:linear-gradient(90deg,#d4a017,#2e8b57);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-            margin-bottom:10px;
-        }
-        .sub { color:#707070; font-size:0.9rem; margin-bottom:32px; }
-        .form-card {
-            background:linear-gradient(135deg,#111111 0%,#1a1a1a 100%);
-            border:1px solid #2a2a2a;
-            border-radius:18px;
-            padding:36px 32px;
-            box-shadow:0 8px 40px #00000033;
-        }
-        label {
-            display:block;
-            color:#909090;
-            font-size:0.82rem;
-            font-weight:600;
-            letter-spacing:0.5px;
-            text-transform:uppercase;
-            margin-bottom:7px;
-        }
-        input, textarea {
-            width:100%;
-            padding:14px 16px;
-            margin-bottom:22px;
-            background:#0e0e0e;
-            border:1.5px solid #2a2a2a;
-            border-radius:10px;
-            color:#e0e0e0;
-            font-size:1rem;
-            font-family:'Inter', sans-serif;
-            transition:border-color 0.2s, box-shadow 0.2s;
-            outline:none;
-        }
-        input:focus, textarea:focus {
-            border-color:#d4a017;
-            box-shadow:0 0 0 3px #d4a01722;
-        }
-        input::placeholder, textarea::placeholder { color:#3a3a3a; }
-        textarea { height:320px; resize:vertical; line-height:1.7; }
-        .btn-row { display:flex; gap:14px; align-items:center; }
-        button {
-            padding:13px 36px;
-            background:linear-gradient(135deg,#d4a017,#2e8b57);
-            border:none;
-            border-radius:10px;
-            color:white;
-            font-size:1rem;
-            font-weight:700;
-            font-family:'Inter', sans-serif;
-            cursor:pointer;
-            box-shadow:0 4px 18px #d4a01733;
-            transition:opacity 0.2s, transform 0.15s;
-        }
-        button:hover { opacity:0.88; transform:translateY(-1px); }
-        .btn-cancel {
-            color:#707070;
-            text-decoration:none;
-            font-size:0.92rem;
-            font-weight:500;
-            padding:13px 20px;
-            border-radius:10px;
-            border:1.5px solid #2a2a2a;
-            transition:border-color 0.2s, color 0.2s;
-        }
-        .btn-cancel:hover { border-color:#d4a01788; color:#2e8b57; }
-        .error {
-            background:#1e1a0a;
-            border:1.5px solid #d4a01788;
-            padding:12px 16px;
-            border-radius:10px;
-            margin-bottom:20px;
-            color:#d4a017;
-            font-size:0.9rem;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <%- include('../partials/navbar') %>
 
-    <main>
-        <div class="container">
-            <h1>Write a Post</h1>
-            <p class="sub">Share your knowledge with the DevConnect community</p>
+    <main class="flex-1">
+        <div class="container-narrow" style="padding-top: 48px; padding-bottom: 48px;">
+            <div class="page-header animate-in">
+                <h1 class="page-title gradient-text-warm">Write a Post</h1>
+                <p class="page-subtitle">Share your knowledge with the DevConnect community</p>
+            </div>
 
-            <div class="form-card">
+            <div class="form-card glass animate-in animate-in-delay-1">
                 <% if (error) { %>
-                    <div class="error">⚠️ <%= error %></div>
+                    <div class="alert alert-error">⚠️ <%= error %></div>
                 <% } %>
 
                 <form action="/post/create" method="POST">
-                    <label for="title">Post Title</label>
-                    <input type="text" id="title" name="title" placeholder="Give your post a great title..." required />
+                    <div class="input-group">
+                        <label for="title" class="form-label">Post Title</label>
+                        <input type="text" id="title" name="title" class="input" placeholder="Give your post a great title..." required />
+                    </div>
 
-                    <label for="content">Content</label>
-                    <textarea id="content" name="content" placeholder="Write your post here..."></textarea>
+                    <div class="input-group">
+                        <label for="content" class="form-label">Content</label>
+                        <textarea id="content" name="content" class="input" style="height: 320px;" placeholder="Write your post here..."></textarea>
+                    </div>
 
-                    <div class="btn-row">
-                        <button type="submit">🚀 Publish Post</button>
-                        <a href="/dashboard" class="btn-cancel">Cancel</a>
+                    <div style="display:flex; gap:14px; align-items:center;">
+                        <button type="submit" class="btn btn-primary">🚀 Publish Post</button>
+                        <a href="/dashboard" class="btn btn-ghost">Cancel</a>
                     </div>
                 </form>
             </div>

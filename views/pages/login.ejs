@@ -3,118 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to DevConnect — the developer community platform.">
     <title>Login — DevConnect</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html, body { height:100%; }
-        body {
-            background:#0a0a0a;
-            color:#e0e0e0;
-            font-family:'Inter', sans-serif;
-            display:flex;
-            flex-direction:column;
-            min-height:100vh;
-            justify-content:center;
-            align-items:center;
-        }
-        .brand {
-            font-size:1.8rem;
-            font-weight:800;
-            background:linear-gradient(90deg,#d4a017,#2e8b57);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-            margin-bottom:28px;
-            letter-spacing:-0.5px;
-        }
-        .card {
-            background:linear-gradient(135deg,#111111 0%,#1a1a1a 100%);
-            padding:44px 40px;
-            border-radius:18px;
-            width:100%;
-            max-width:440px;
-            border:1px solid #2a2a2a;
-            box-shadow:0 8px 48px #0008;
-        }
-        h2 {
-            color:#e8e8e8;
-            margin-bottom:8px;
-            text-align:center;
-            font-size:1.5rem;
-            font-weight:700;
-        }
-        .sub {
-            text-align:center;
-            color:#707070;
-            font-size:0.88rem;
-            margin-bottom:28px;
-        }
-        input {
-            width:100%;
-            padding:13px 16px;
-            margin-bottom:14px;
-            background:#0e0e0e;
-            border:1.5px solid #2a2a2a;
-            border-radius:10px;
-            color:#e0e0e0;
-            font-size:0.97rem;
-            font-family:'Inter', sans-serif;
-            transition:border-color 0.2s, box-shadow 0.2s;
-            outline:none;
-        }
-        input:focus { border-color:#d4a017; box-shadow:0 0 0 3px #d4a01722; }
-        input::placeholder { color:#4a4a4a; }
-        button {
-            width:100%;
-            padding:13px;
-            background:linear-gradient(135deg,#d4a017,#2e8b57);
-            border:none;
-            border-radius:10px;
-            color:white;
-            font-size:1rem;
-            font-weight:700;
-            font-family:'Inter', sans-serif;
-            cursor:pointer;
-            box-shadow:0 4px 18px #d4a01733;
-            transition:opacity 0.2s, transform 0.15s;
-            margin-top:4px;
-        }
-        button:hover { opacity:0.88; transform:translateY(-1px); }
-        p { text-align:center; margin-top:18px; color:#606060; font-size:0.9rem; }
-        a { color:#2e8b57; text-decoration:none; font-weight:600; }
-        a:hover { color:#d4a017; }
-        .error {
-            background:#1e1a0a;
-            border:1.5px solid #d4a01788;
-            padding:11px 14px;
-            border-radius:10px;
-            margin-bottom:16px;
-            color:#d4a017;
-            text-align:center;
-            font-size:0.9rem;
-        }
-        .divider { border:none; border-top:1px solid #2a2a2a; margin:20px 0; }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="brand">DevConnect</div>
-    <div class="card">
-        <h2>Welcome Back</h2>
-        <p class="sub">Sign in to your account</p>
-        <hr class="divider">
+    <div class="auth-wrapper">
+        <div class="auth-card glass animate-in">
+            <div class="auth-brand gradient-text">DevConnect</div>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-sub">Sign in to your account</p>
+            <hr class="auth-divider">
 
-        <% if (error) { %>
-            <div class="error">⚠️ <%= error %></div>
-        <% } %>
+            <% if (error) { %>
+                <div class="alert alert-error animate-in animate-in-delay-1">⚠️ <%= error %></div>
+            <% } %>
 
-        <form action="/auth/login" method="POST">
-            <input type="email" name="email" placeholder="Email address" required />
-            <input type="password" name="password" placeholder="Password" required />
-            <button type="submit">Sign In</button>
-        </form>
+            <form action="/auth/login" method="POST">
+                <div class="input-group">
+                    <input type="email" name="email" class="input" placeholder="Email address" required />
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" class="input" placeholder="Password" required />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Sign In</button>
+            </form>
 
-        <p>Don't have an account? <a href="/auth/register">Create one</a></p>
+            <p class="auth-footer">Don't have an account? <a href="/auth/register">Create one</a></p>
+        </div>
     </div>
 </body>
 </html>

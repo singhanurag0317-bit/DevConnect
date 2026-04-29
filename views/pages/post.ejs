@@ -3,129 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%= post.title %> — A post on DevConnect by <%= post.author.name %>">
     <title><%= post.title %> — DevConnect</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html, body { height:100%; }
-        body {
-            background:#0a0a0a;
-            color:#e0e0e0;
-            font-family:'Inter', sans-serif;
-            display:flex;
-            flex-direction:column;
-            min-height:100vh;
-        }
-        main { flex:1; }
-        .container { max-width:740px; margin:48px auto; padding:0 24px; }
-        .back {
-            color:#707070;
-            text-decoration:none;
-            font-size:0.9rem;
-            font-weight:500;
-            display:inline-flex;
-            align-items:center;
-            gap:6px;
-            margin-bottom:28px;
-            padding:8px 16px;
-            border-radius:8px;
-            border:1px solid #2a2a2a;
-            transition:color 0.2s, border-color 0.2s;
-        }
-        .back:hover { color:#2e8b57; border-color:#d4a01788; }
-        .post-header {
-            background:linear-gradient(135deg,#111111 0%,#1a1a1a 100%);
-            border:1px solid #2a2a2a;
-            border-radius:18px;
-            padding:40px 36px;
-            margin-bottom:32px;
-            box-shadow:0 8px 40px #00000033;
-        }
-        h1 {
-            color:#e8e8e8;
-            font-size:2rem;
-            font-weight:800;
-            margin-bottom:14px;
-            line-height:1.35;
-        }
-        .meta {
-            color:#707070;
-            font-size:0.88rem;
-            display:flex;
-            align-items:center;
-            gap:6px;
-        }
-        .meta strong { color:#909090; }
-        .content-card {
-            background:linear-gradient(135deg,#111111 0%,#1a1a1a 100%);
-            border:1px solid #2a2a2a;
-            border-radius:18px;
-            padding:36px 36px;
-            box-shadow:0 4px 24px #00000022;
-        }
-        .content {
-            color:#c0c0c0;
-            line-height:1.85;
-            font-size:1.05rem;
-            white-space:pre-wrap;
-        }
-        .actions {
-            margin-top:36px;
-            display:flex;
-            gap:14px;
-            align-items:center;
-            padding-top:28px;
-            border-top:1px solid #2a2a2a;
-        }
-        .btn {
-            padding:11px 26px;
-            border-radius:10px;
-            border:none;
-            cursor:pointer;
-            font-size:0.92rem;
-            font-weight:600;
-            font-family:'Inter', sans-serif;
-            text-decoration:none;
-            transition:opacity 0.2s, transform 0.15s;
-        }
-        .btn-edit {
-            background:#1a1a1a;
-            color:#2e8b57;
-            border:1.5px solid #2a2a2a;
-        }
-        .btn-edit:hover { border-color:#d4a017; color:#d4a017; transform:translateY(-1px); }
-        .btn-delete {
-            background:linear-gradient(135deg,#d4a017,#2e8b57);
-            color:white;
-            box-shadow:0 3px 14px #d4a01733;
-        }
-        .btn-delete:hover { opacity:0.85; transform:translateY(-1px); }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <%- include('../partials/navbar') %>
 
-    <main>
-        <div class="container">
-            <a href="/dashboard" class="back">← Back to posts</a>
+    <main class="flex-1">
+        <div class="container-narrow" style="padding-top: 48px; padding-bottom: 48px;">
+            <a href="/dashboard" class="back-link animate-in">← Back to posts</a>
 
-            <div class="post-header">
+            <div class="post-header-card glass animate-in animate-in-delay-1">
                 <h1><%= post.title %></h1>
-                <div class="meta">
+                <div class="post-meta">
                     By <strong><%= post.author.name %></strong> &nbsp;•&nbsp;
                     <%= new Date(post.createdAt).toDateString() %>
                 </div>
             </div>
 
-            <div class="content-card">
-                <div class="content"><%= post.content %></div>
+            <div class="post-content-card glass animate-in animate-in-delay-2">
+                <div class="post-content"><%= post.content %></div>
 
                 <% if (user && user._id.toString() === post.author._id.toString()) { %>
-                    <div class="actions">
-                        <a href="/post/<%= post._id %>/edit" class="btn btn-edit">✏️ Edit</a>
+                    <div class="post-actions">
+                        <a href="/post/<%= post._id %>/edit" class="btn btn-ghost">✏️ Edit</a>
                         <form action="/post/<%= post._id %>/delete" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-delete">🗑️ Delete</button>
+                            <button type="submit" class="btn btn-danger">🗑️ Delete</button>
                         </form>
                     </div>
                 <% } %>
